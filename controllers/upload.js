@@ -1,5 +1,6 @@
 import path from "path"
-
+import receipt from "../models/receipts.js";
+import mongoose from "mongoose";
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -9,10 +10,19 @@ const __dirname = dirname(__filename);
 
 
 export const uploadBody = async (req, res) => {
-    const { timestamp } = req.params;
-    const post = req.body;
-    console.log(timestamp)
-    console.log(post)
+    const { email } = req.params;
+    const entry = {
+        "email": email
+    }
+    const newEntry = new receipt(entry);
+    try {
+        await newEntry.save();
+        res.status(201).json(newEntry);
+    } catch (error) {
+        res.status(409).json({ message: error.message });
+    }
+
+
 }
 
 export const welcomeRoute = async (req, res) => {
