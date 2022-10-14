@@ -25,6 +25,15 @@ export const uploadBody = async (req, res) => {
 
 }
 
+export const getreceipt = async (req, res) => {
+    try {
+        const receipts = await receipt.find();
+        res.status(200).json(receipts);
+    } catch (error) {
+        res.status(404).json({message:error.message});
+    }
+}
+
 export const welcomeRoute = async (req, res) => {
     res.status(201).sendFile(path.join(__dirname, '../index.html'));
 }
